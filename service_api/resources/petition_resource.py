@@ -43,12 +43,16 @@ class PetitionResource(HTTPMethodView):
             async with create_engine(dsn) as engine:
                 async with engine.acquire() as conn:
                     args["user_id"] = request.app.TOKEN_CACHE.get(headers.get("X-User"))
-                    await Petition.insert(conn, args)
+                    result = await Petition.insert(conn, args)
+
+                    if result:
+                        return sanic_json(result, 200)
+
+                    else:
+                        return sanic_json("Something went wrong", 500)
 
         except IntegrityError:
-            return sanic_json("Such user already exists", 406)
-
-        return sanic_json("SUCCESS", 200)
+            return sanic_json("Such petition already exists", 406)
 
     async def get(self, request: Request, petition_id: str = None):
 
@@ -103,12 +107,16 @@ class PetitionResource(HTTPMethodView):
             async with create_engine(dsn) as engine:
                 async with engine.acquire() as conn:
                     args["user_id"] = request.app.TOKEN_CACHE.get(headers.get("X-User"))
-                    await Petition.update(conn, petition_id, args)
+                    result = await Petition.update(conn, petition_id, args)
 
-            return sanic_json("SUCCESS", 200)
+                    if result:
+                        return sanic_json(result, 200)
 
-        except Exception:
-            return sanic_json("Something went wrong", 500)
+                    else:
+                        return sanic_json("Something went wrong", 500)
+
+        except IntegrityError:
+            return sanic_json("Such petition already exists", 500)
 
     async def delete(self, request: Request, petition_id: str = None):
 
@@ -131,7 +139,7 @@ class PetitionResource(HTTPMethodView):
                 async with engine.acquire() as conn:
                     await Petition.delete(conn, petition_id)
 
-            return sanic_json("SUCCESS", 200)
+            return sanic_json("Petition deleted or not found", 200)
 
         except Exception:
             return sanic_json("Something went wrong", 500)

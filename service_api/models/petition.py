@@ -17,7 +17,7 @@ class Petition(Base):
 
     user_id = Column(String)
 
-    petition_name = Column(String)
+    petition_name = Column(String, unique=True)
 
     petition_description = Column(Text)
 
@@ -42,6 +42,17 @@ class Petition(Base):
         item = cls._prepare_item(data)
         query = cls.__table__.insert().values(**item)
         await conn.execute(query)
+
+        query = cls.__table__.select().where(Petition.petition_name == item.get("petition_name"))
+        result = await conn.execute(query)
+        row = await result.fetchone()
+
+        if row:
+            cur = dict(row)
+            cur["id"] = str(cur["id"])
+            return cur
+        else:
+            return None
 
     @classmethod
     async def select(cls, conn: Connection, petition_id: str = None):
@@ -80,6 +91,17 @@ class Petition(Base):
         )
 
         await conn.execute(query)
+
+        query = cls.__table__.select().where(Petition.id == petition_id)
+        result = await conn.execute(query)
+        row = await result.fetchone()
+
+        if row:
+            cur = dict(row)
+            cur["id"] = str(cur["id"])
+            return cur
+        else:
+            return None
 
     @classmethod
     async def delete(cls, conn: Connection, petition_id: str):

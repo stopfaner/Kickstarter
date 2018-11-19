@@ -30,9 +30,14 @@ class RegisterResource(HTTPMethodView):
         try:
             async with create_engine(dsn) as engine:
                 async with engine.acquire() as conn:
-                    await User.insert(conn, args)
+                    result = await User.insert(conn, args)
+
+                    if result:
+                        return sanic_json(result, 201)
+
+                    else:
+                        return sanic_json("Something went wrong", 500)
 
         except IntegrityError:
             return sanic_json("Such user already exists", 406)
 
-        return sanic_json("Success", 201)

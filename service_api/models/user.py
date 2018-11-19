@@ -39,6 +39,18 @@ class User(Base):
         query = cls.__table__.insert().values(**item)
         await conn.execute(query)
 
+        query = cls.__table__.select().where(User.email == item.get("email"))
+        result = await conn.execute(query)
+        row = await result.fetchone()
+
+        if row:
+            cur = dict(row)
+            cur["id"] = str(cur["id"])
+            cur.pop("password")
+            return cur
+        else:
+            return None
+
     @classmethod
     async def login(cls, conn: Connection, data: dict):
 

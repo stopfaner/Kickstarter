@@ -26,4 +26,4 @@ class UserResource(HTTPMethodView):
                     return sanic_json(result, 200)
 
                 else:
-                    return sanic_json("FAILURE", 400)
+                    return sanic_json({}, 400)
