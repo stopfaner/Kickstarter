@@ -1,0 +1,5 @@
+from service_api.resources.register_resource import RegisterResource
+from service_api.resources.login_resource import LoginResource
+from service_api.resources.petition_resource import PetitionResource
+from service_api.resources.logout_resource import LogoutResource
+from service_api.resources.user_resource import UserResource

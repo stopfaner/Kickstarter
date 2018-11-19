@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="kickstarter@localhost" uuid="a1ad27ef-2b99-450f-9f3b-ad67cacbbf7e">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/kickstarter</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="kickstarter@89.235.184.160" uuid="807bb2f4-4040-4a7d-898c-2d113ca031fc">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://89.235.184.160:7432/kickstarter</jdbc-url>
+    </data-source>
+  </component>
+</project>
