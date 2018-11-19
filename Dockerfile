@@ -13,7 +13,7 @@ WORKDIR /opt/service_api
 RUN virtualenv kickstarter
 RUN . kickstarter/bin/activate
 
-ENV DATABASE_HOST="89.235.184.160"
+ENV DATABASE_HOST="postgres"
 ENV DATABASE_PORT=7432
 
 # Install everything else
